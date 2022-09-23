@@ -4,7 +4,6 @@ const dotenv = require('dotenv');
 
 // Models
 const { User } = require('../models/user.model');
-const { Order } = require('../models/order.model');
 
 // Utils
 const { catchAsync } = require('../utils/catchAsync.util');
@@ -87,35 +86,9 @@ const login = catchAsync(async (req, res, next) => {
   });
 });
 
-const getOrders = catchAsync(async (req, res, next) => {
-  const { id } = req.sessionUser;
-  const orders = await Order.findAll({
-    where: { userId: id },
-  });
-  res.status(200).json({
-    status: 'succes',
-    data: { orders },
-  });
-});
-
-const getOrderById = (req, res, next) => {
-  const { order } = req;
-  const { id } = req.sessionUser;
-
-  if (order.userId !== id)
-    next(new AppError('This order does not  belong to you', 403));
-
-  res.status(200).json({
-    status: 'succes',
-    data: order,
-  });
-};
-
 module.exports = {
   createUser,
   updateUser,
   deleteUser,
   login,
-  getOrders,
-  getOrderById,
 };

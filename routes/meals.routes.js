@@ -12,6 +12,7 @@ const {
 //Middlewares
 const { protectSession } = require('../middlewares/auth.middlewares');
 const { restaurantExists } = require('../middlewares/restaurants.middlewares');
+const { protectAdmin } = require('../middlewares/auth.middlewares');
 const { mealExists } = require('../middlewares/meals.middlewares');
 const {
   createMealValidators,
@@ -28,8 +29,8 @@ mealsRouter.use(protectSession);
 
 mealsRouter.post('/:id', restaurantExists, createMealValidators, createMeal);
 
-mealsRouter.patch('/:id', mealExists, updateMeal);
+mealsRouter.patch('/:id', protectAdmin, mealExists, updateMeal);
 
-mealsRouter.delete('/:id', mealExists, deleteMeal);
+mealsRouter.delete('/:id', protectAdmin, mealExists, deleteMeal);
 
 module.exports = { mealsRouter };

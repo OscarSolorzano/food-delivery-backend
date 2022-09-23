@@ -52,9 +52,25 @@ const getMealById = catchAsync(async (req, res, next) => {
   });
 });
 
-const updateMeal = catchAsync(async (req, res, next) => {});
+const updateMeal = catchAsync(async (req, res, next) => {
+  const { name, price } = req.body;
+  const { meal } = req;
 
-const deleteMeal = catchAsync(async (req, res, next) => {});
+  await meal.update({ name, price });
+
+  res.status(200).json({
+    status: 'succes',
+    data: { meal },
+  });
+});
+
+const deleteMeal = catchAsync(async (req, res, next) => {
+  const { meal } = req;
+
+  await meal.update({ status: 'deleted' });
+
+  res.status(204).json({ status: 'succes' });
+});
 
 module.exports = {
   createMeal,

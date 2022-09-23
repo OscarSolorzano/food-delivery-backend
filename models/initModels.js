@@ -30,9 +30,8 @@ const initModels = () => {
   });
   Meal.belongsTo(Restaurant);
 
-  //1 Meal <---> M Order
-  // Meal.hasOne(Order, { foreignKey: 'mealId' });
-  // Order.belongsTo(Meal);
+  //1 Order ---> 1Meal
+  Order.belongsTo(Meal);
 };
 
 module.exports = { initModels };
